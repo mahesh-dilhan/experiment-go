@@ -11,55 +11,97 @@ import (
 //concumer -> n group
 //consumer -> pull
 func main() {
-	//var done = make(chan bool)
+	done := make(chan bool)
+	msgt1 := make(chan Message)
 	//b := NewBrokerRecord(1, 1, 1, 1, &done)
 	//pub := b.p
 	//go pub.produce(*b.t, 5)
-	//go b.con.c[0].consume()
+	//go b.con.c[0].consume
+
+	b := NewBroker(1)
+	en := NewEntry(b.bid)
+
+	p := NewProducer(1000, &msgt1, &done)
+	en.p = p
+
+	cg := NewConsumerGroup(100)
+
+	c := NewConsumer(5000)
+	cg.c = []*Consumer{c}
+
+	t := NewTopic(10000)
+
+	par := NewPartiton(20000)
+	t.p = []*Partition{par}
+
+	msg1 := NewMessage(30000)
+	msg1.msg = "Topic 1 service 1...."
+
+	msg2 := NewMessage(30001)
+	msg2.msg = "Topic 2 service 2...."
+
+	par.msgs = []*Message{msg1, msg2}
 
 	time.Sleep(5 * time.Second)
 }
 
 type Message struct {
-	msg    string
+	msg string
+	mid int
+}
+
+func NewMessage(mid int) *Message {
+	return &Message{mid: mid}
+}
+
+type Partition struct {
+	msgs   []*Message
+	parid  int
 	offset int
 }
-type Partition struct {
-	msgs []*Message
-	id   int
+
+func NewPartiton(parid int) *Partition {
+	return &Partition{
+		parid: parid,
+	}
 }
+
 type Topic struct {
 	p   []*Partition
 	tid int
 }
 
+func NewTopic(tid int) *Topic {
+	return &Topic{tid: tid}
+}
+
 type Entry struct {
-	con    *ConsumerGroup
-	p      *Producer
-	t      *Topic
-	record int
+	con *ConsumerGroup
+	p   *Producer
+	t   *Topic
+	eid int
 }
 
-func subscriber(b int, topic Topic) *int {
-	return nil
+func NewEntry(eid int) *Entry {
+	return &Entry{
+		eid: eid,
+	}
 }
 
-func NewEntry() *Entry {
-	return &Entry{}
-}
-
-func NewBroker() *Broker {
+func NewBroker(bid int) *Broker {
 	return &Broker{
-		e: []*Entry{},
+		e:   []*Entry{},
+		bid: bid,
 	}
 }
 
 type Broker struct {
-	e []*Entry
+	e   []*Entry
+	bid int
 }
 
-func NewConsumerGroup() *ConsumerGroup {
-
+func NewConsumerGroup(cgid int) *ConsumerGroup {
+	return nil
 }
 
 type ConsumerGroup struct {
@@ -70,13 +112,19 @@ type ConsumerGroup struct {
 func (cg *ConsumerGroup) joinGroup(newc *Consumer) {
 	cg.c = append(cg.c, newc)
 }
-func NewConsumer() *Consumer {
-	return nil
+func NewConsumer(cid int) *Consumer {
+	return &Consumer{
+		cid: cid,
+	}
 }
 
 type Consumer struct {
-	id   int
+	cid  int
 	msgs *chan Message
+}
+
+func subscribe(b int, topic Topic) *int {
+	return nil
 }
 
 type Producer struct {
