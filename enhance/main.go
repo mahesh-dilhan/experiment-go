@@ -11,11 +11,11 @@ import (
 //concumer -> n group
 //consumer -> pull
 func main() {
-	var done = make(chan bool)
-	b := NewBrokerRecord(1, 1, 1, 1, &done)
-	pub := b.p
-	go pub.produce(*b.t, 5)
-	go b.con.c[0].consume()
+	//var done = make(chan bool)
+	//b := NewBrokerRecord(1, 1, 1, 1, &done)
+	//pub := b.p
+	//go pub.produce(*b.t, 5)
+	//go b.con.c[0].consume()
 
 	time.Sleep(5 * time.Second)
 }
@@ -33,11 +33,23 @@ type Topic struct {
 	tid int
 }
 
-type Broker struct {
+type Entry struct {
 	con    *ConsumerGroup
 	p      *Producer
 	t      *Topic
 	record int
+}
+
+func ()  {
+	
+}
+
+func NewEntry() *Entry {
+	return &Entry{}
+}
+
+type Broker struct {
+	e []*Entry
 }
 
 type ConsumerGroup struct {
@@ -58,28 +70,28 @@ func NewProducer(id int, msgs *chan Message, done *chan bool) *Producer {
 	return &Producer{id: id, msgs: msgs, done: done}
 }
 
-func NewBrokerRecord(pid int, cid int, tid int, parid int, done *chan bool) *Broker {
-	cn := make(chan Message)
-
-	return &Broker{
-		p: &Producer{
-			id:   pid,
-			done: done,
-			msgs: nil,
-		},
-		con: &ConsumerGroup{
-			c: []*Consumer{
-				{id: cid, msgs: &cn},
-			},
-		},
-		t: &Topic{
-			tid: tid,
-			p: []*Partition{
-				{id: parid, msgs: nil},
-			},
-		},
-	}
-}
+//func NewBrokerRecord(pid int, cid int, tid int, parid int, done *chan bool) *Broker {
+//	cn := make(chan Message)
+//
+//	return &Broker{
+//		p: &Producer{
+//			id:   pid,
+//			done: done,
+//			msgs: nil,
+//		},
+//		con: &ConsumerGroup{
+//			c: []*Consumer{
+//				{id: cid, msgs: &cn},
+//			},
+//		},
+//		t: &Topic{
+//			tid: tid,
+//			p: []*Partition{
+//				{id: parid, msgs: nil},
+//			},
+//		},
+//	}
+//}
 
 //func (b *Broker) connectpusblish(pid int,done *chan bool) *Broker {
 //
