@@ -18,6 +18,21 @@ func main() {
 	//go pub.produce(*b.t, 5)
 	//go b.con.c[0].consume
 
+	msg1 := NewMessage(30000)
+	msg1.msg = "Topic 1 service 1...."
+
+	msg2 := NewMessage(30001)
+	msg2.msg = "Topic 2 service 2...."
+
+	par := NewPartition(20000)
+	par.msgs = []*Message{msg1, msg2}
+
+	t := NewTopic(10000, "Covid")
+	t.p = []*Partition{par}
+
+	fmt.Printf(" Partitions '%v'", par)
+	fmt.Printf(" Topic '%v", t)
+
 	b := NewBroker(1)
 	en := NewEntry(b.bid)
 
@@ -29,18 +44,7 @@ func main() {
 	c := NewConsumer(5000)
 	cg.c = []*Consumer{c}
 
-	t := NewTopic(10000)
-
-	par := NewPartiton(20000)
-	t.p = []*Partition{par}
-
-	msg1 := NewMessage(30000)
-	msg1.msg = "Topic 1 service 1...."
-
-	msg2 := NewMessage(30001)
-	msg2.msg = "Topic 2 service 2...."
-
-	par.msgs = []*Message{msg1, msg2}
+	fmt.Println()
 
 	time.Sleep(5 * time.Second)
 }
@@ -60,19 +64,20 @@ type Partition struct {
 	offset int
 }
 
-func NewPartiton(parid int) *Partition {
+func NewPartition(parid int) *Partition {
 	return &Partition{
 		parid: parid,
 	}
 }
 
 type Topic struct {
-	p   []*Partition
-	tid int
+	p    []*Partition
+	tid  int
+	name string
 }
 
-func NewTopic(tid int) *Topic {
-	return &Topic{tid: tid}
+func NewTopic(tid int, name string) *Topic {
+	return &Topic{tid: tid, name: name}
 }
 
 type Entry struct {
