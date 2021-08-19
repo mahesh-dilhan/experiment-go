@@ -40,8 +40,8 @@ type Entry struct {
 	record int
 }
 
-func ()  {
-	
+func subscriber(b int, topic Topic) *int {
+	return nil
 }
 
 func NewEntry() *Entry {
