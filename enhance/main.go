@@ -48,13 +48,32 @@ func NewEntry() *Entry {
 	return &Entry{}
 }
 
+func NewBroker() *Broker {
+	return &Broker{
+		e: []*Entry{},
+	}
+}
+
 type Broker struct {
 	e []*Entry
 }
 
-type ConsumerGroup struct {
-	c []*Consumer
+func NewConsumerGroup() *ConsumerGroup {
+
 }
+
+type ConsumerGroup struct {
+	c    []*Consumer
+	cgid int
+}
+
+func (cg *ConsumerGroup) joinGroup(newc *Consumer) {
+	cg.c = append(cg.c, newc)
+}
+func NewConsumer() *Consumer {
+	return nil
+}
+
 type Consumer struct {
 	id   int
 	msgs *chan Message
