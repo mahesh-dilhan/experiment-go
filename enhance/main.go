@@ -30,21 +30,25 @@ func main() {
 	t := NewTopic(10000, "Covid")
 	t.p = []*Partition{par}
 
-	fmt.Printf(" Partitions '%v'", par)
-	fmt.Printf(" Topic '%v", t)
+	fmt.Printf(" Partitions '%v' \n", *par)
+	fmt.Printf(" Topic '%v \n", *t)
 
 	b := NewBroker(1)
 	en := NewEntry(b.bid)
-
+	en.t = t
 	p := NewProducer(1000, &msgt1, &done)
 	en.p = p
-
-	cg := NewConsumerGroup(100)
-
-	c := NewConsumer(5000)
-	cg.c = []*Consumer{c}
-
-	fmt.Println()
+	//
+	//cg := NewConsumerGroup(100)
+	//en.con= cg
+	//c := NewConsumer(5000)
+	//cg.c = []*Consumer{c}
+	//
+	//fmt.Printf("Consumer '%v' \n",*c)
+	//fmt.Printf("Consumer Group '%v' \n",*cg)
+	//fmt.Printf("Producer '%v' \n",*p)
+	fmt.Printf("Broker '%v' \n", *b)
+	fmt.Printf("Entry '%v' \n", *en)
 
 	time.Sleep(5 * time.Second)
 }
@@ -176,8 +180,7 @@ func (p *Producer) produce(topic Topic, max int) {
 	for i := 0; i < max; i++ {
 		fmt.Println("produce: Sending ", i)
 		m = &Message{
-			msg:    "service" + strconv.Itoa(i),
-			offset: i,
+			msg: "service" + strconv.Itoa(i),
 		}
 		fmt.Println(*m)
 		*p.msgs <- *m
