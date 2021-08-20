@@ -39,13 +39,13 @@ func main() {
 	p := NewProducer(1000, &msgt1, &done)
 	en.p = p
 	//
-	//cg := NewConsumerGroup(100)
-	//en.con= cg
+	cg := NewConsumerGroup(100)
+	en.con = cg
 	//c := NewConsumer(5000)
 	//cg.c = []*Consumer{c}
 	//
 	//fmt.Printf("Consumer '%v' \n",*c)
-	//fmt.Printf("Consumer Group '%v' \n",*cg)
+	fmt.Printf("Consumer Group '%v' \n", *cg)
 	//fmt.Printf("Producer '%v' \n",*p)
 	fmt.Printf("Broker '%v' \n", *b)
 	fmt.Printf("Entry '%v' \n", *en)
