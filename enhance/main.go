@@ -111,7 +111,7 @@ type Broker struct {
 
 func NewConsumerGroup(cgid int) *ConsumerGroup {
 	return &ConsumerGroup{
-		c:    []*Consumer,
+		c:    []*Consumer{},
 		cgid: cgid,
 	}
 }
