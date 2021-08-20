@@ -177,11 +177,13 @@ func NewProducer(id int, msgs *chan Message, done *chan bool) *Producer {
 //
 //}
 
-func (p *Producer) produce(topic Topic, max int) {
+func (p *Producer) produce(topic *Topic, max int) {
 	fmt.Println("produce: Started")
 	var m *Message
 	for i := 0; i < max; i++ {
 		fmt.Println("produce: Sending ", i)
+
+		//topic.p
 		m = &Message{
 			msg: "service" + strconv.Itoa(i),
 		}
