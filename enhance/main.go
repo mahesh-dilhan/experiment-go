@@ -42,7 +42,7 @@ func main() {
 	cg := NewConsumerGroup(100)
 	en.con = cg
 	c := NewConsumer(5000)
-	cg.c = []*Consumer{c}
+	cg.joinGroup(c)
 	//
 	fmt.Printf("Consumer '%v' \n", *c)
 	fmt.Printf("Consumer Group '%v' \n", *cg)
