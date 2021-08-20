@@ -68,6 +68,10 @@ type Partition struct {
 	offset int
 }
 
+func (par *Partition) pushToPartition(msg *Message)  {
+ par.msgs =	append(par.msgs, msg)
+}
+
 func NewPartition(parid int) *Partition {
 	return &Partition{
 		parid: parid,
@@ -78,6 +82,10 @@ type Topic struct {
 	p    []*Partition
 	tid  int
 	name string
+}
+
+func (t *Topic ) pushToTopic()  {
+	append(t.p)
 }
 
 func NewTopic(tid int, name string) *Topic {
@@ -183,7 +191,7 @@ func (p *Producer) produce(topic *Topic, max int) {
 	for i := 0; i < max; i++ {
 		fmt.Println("produce: Sending ", i)
 
-		//topic.p
+		topic.p =
 		m = &Message{
 			msg: "service" + strconv.Itoa(i),
 		}
