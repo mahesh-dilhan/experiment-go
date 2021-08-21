@@ -55,7 +55,7 @@ func main() {
 
 type Message struct {
 	msg string
-	mid int
+	mid int //offset
 }
 
 func NewMessage(mid int) *Message {
@@ -63,13 +63,12 @@ func NewMessage(mid int) *Message {
 }
 
 type Partition struct {
-	msgs   []*Message
-	parid  int
-	offset int
+	msgs  []*Message
+	parid int
 }
 
-func (par *Partition) pushToPartition(msg *Message)  {
- par.msgs =	append(par.msgs, msg)
+func (par *Partition) pushToPartition(msg *Message) {
+	par.msgs = append(par.msgs, msg)
 }
 
 func NewPartition(parid int) *Partition {
@@ -84,8 +83,9 @@ type Topic struct {
 	name string
 }
 
-func (t *Topic ) pushToTopic()  {
-	append(t.p)
+func (t *Topic) getPartition() *Partition {
+	//default 0
+	return t.p[0]
 }
 
 func NewTopic(tid int, name string) *Topic {
@@ -191,10 +191,10 @@ func (p *Producer) produce(topic *Topic, max int) {
 	for i := 0; i < max; i++ {
 		fmt.Println("produce: Sending ", i)
 
-		topic.p =
 		m = &Message{
 			msg: "service" + strconv.Itoa(i),
 		}
+		topic.getPartition().pushToPartition(m)
 		fmt.Println(*m)
 		*p.msgs <- *m
 	}
