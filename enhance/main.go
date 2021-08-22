@@ -24,7 +24,7 @@ func main() {
 	msg2.msg = "Topic 2 service 2...."
 
 	par := NewPartition(20000)
-	par.msgs = []*Message{msg1, msg2}
+	//par.msgs = []*Message{msg1, msg2}
 
 	t := NewTopic(10000, "Covid")
 	t.p = []*Partition{par}
@@ -49,8 +49,8 @@ func main() {
 	fmt.Printf("Broker '%v' \n", *b)
 	fmt.Printf("Entry '%v' \n", *en)
 
-	p.produce(t)
-
+	go p.produce(t, msg1, msg2)
+	go c.consume()
 	time.Sleep(5 * time.Second)
 }
 
@@ -94,10 +94,12 @@ func NewTopic(tid int, name string) *Topic {
 }
 
 type Entry struct {
-	con *ConsumerGroup
-	p   *Producer
-	t   *Topic
-	eid int
+	con  *ConsumerGroup
+	p    *Producer
+	t    *Topic
+	eid  int
+	msgs *chan Message
+	done *chan bool
 }
 
 func NewEntry(eid int) *Entry {
@@ -140,22 +142,26 @@ func NewConsumer(cid int) *Consumer {
 }
 
 type Consumer struct {
-	cid  int
-	msgs *chan Message
+	cid int
+	//msgs *chan Message
 }
 
-func subscribe(b int, topic Topic) *int {
-	return nil
+func (c *Consumer) subscribe(e *Entry) {
+	//return nil
+}
+
+func (e *Entry) connect(p *Producer) {
+
 }
 
 type Producer struct {
-	id   int
-	msgs *chan Message
-	done *chan bool
+	id int
+	//msgs *chan Message
+	//done *chan bool
 }
 
-func NewProducer(id int, msgs *chan Message, done *chan bool) *Producer {
-	return &Producer{id: id, msgs: msgs, done: done}
+func NewProducer(id int) *Producer {
+	return &Producer{id: id}
 }
 
 //func NewBrokerRecord(pid int, cid int, tid int, parid int, done *chan bool) *Broker {
