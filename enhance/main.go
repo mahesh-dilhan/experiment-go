@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"strconv"
 	"time"
 )
 
@@ -49,6 +48,8 @@ func main() {
 	fmt.Printf("Producer '%v' \n", *p)
 	fmt.Printf("Broker '%v' \n", *b)
 	fmt.Printf("Entry '%v' \n", *en)
+
+	p.produce(t)
 
 	time.Sleep(5 * time.Second)
 }
@@ -185,19 +186,15 @@ func NewProducer(id int, msgs *chan Message, done *chan bool) *Producer {
 //
 //}
 
-func (p *Producer) produce(topic *Topic, max int) {
+func (p *Producer) produce(topic *Topic, msg ...*Message) {
 	fmt.Println("produce: Started")
-	var m *Message
-	for i := 0; i < max; i++ {
-		fmt.Println("produce: Sending ", i)
 
-		m = &Message{
-			msg: "service" + strconv.Itoa(i),
-		}
+	for _, m := range msg {
+		fmt.Println("produce: Sending ", *m)
 		topic.getPartition().pushToPartition(m)
-		fmt.Println(*m)
 		*p.msgs <- *m
 	}
+
 	*p.done <- true // signal when done
 	fmt.Println("produce: Done")
 }
