@@ -35,6 +35,9 @@ func main() {
 	b := NewBroker(1)
 	en := NewEntry(b.bid)
 	en.t = t
+	en.done = &done
+	en.msgs = &msgt1
+
 	p := NewProducer(1000)
 	en.p = p
 	//
@@ -51,6 +54,8 @@ func main() {
 
 	go en.produce(t, msg1, msg2)
 	go en.consume()
+
+	<-done
 	time.Sleep(5 * time.Second)
 }
 
