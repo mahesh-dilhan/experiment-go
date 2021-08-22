@@ -164,51 +164,23 @@ func NewProducer(id int) *Producer {
 	return &Producer{id: id}
 }
 
-//func NewBrokerRecord(pid int, cid int, tid int, parid int, done *chan bool) *Broker {
-//	cn := make(chan Message)
-//
-//	return &Broker{
-//		p: &Producer{
-//			id:   pid,
-//			done: done,
-//			msgs: nil,
-//		},
-//		con: &ConsumerGroup{
-//			c: []*Consumer{
-//				{id: cid, msgs: &cn},
-//			},
-//		},
-//		t: &Topic{
-//			tid: tid,
-//			p: []*Partition{
-//				{id: parid, msgs: nil},
-//			},
-//		},
-//	}
-//}
-
-//func (b *Broker) connectpusblish(pid int,done *chan bool) *Broker {
-//
-//
-//}
-
-func (p *Producer) produce(topic *Topic, msg ...*Message) {
+func (e *Entry) produce(topic *Topic, msg ...*Message) {
 	fmt.Println("produce: Started")
 
 	for _, m := range msg {
 		fmt.Println("produce: Sending ", *m)
 		topic.getPartition().pushToPartition(m)
-		*p.msgs <- *m
+		*e.msgs <- *m
 	}
 
-	*p.done <- true // signal when done
+	*e.done <- true // signal when done
 	fmt.Println("produce: Done")
 }
 
-func (c *Consumer) consume() {
+func (e *Entry) consume() {
 	fmt.Println("consume: Started")
 	for {
-		msg := <-*c.msgs
+		msg := <-*e.msgs
 		fmt.Println("consume: Received:", msg)
 	}
 }
