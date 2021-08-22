@@ -52,7 +52,11 @@ func main() {
 	fmt.Printf("Broker '%v' \n", *b)
 	fmt.Printf("Entry '%v' \n", *en)
 
-	go en.produce(t, msg1, msg2)
+	var msgarr = []*Message{msg1, msg2}
+	for _, m := range msgarr {
+		go en.produce(t, m)
+	}
+
 	go en.consume()
 
 	<-done
