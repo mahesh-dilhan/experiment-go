@@ -35,7 +35,7 @@ func main() {
 	b := NewBroker(1)
 	en := NewEntry(b.bid)
 	en.t = t
-	p := NewProducer(1000, &msgt1, &done)
+	p := NewProducer(1000)
 	en.p = p
 	//
 	cg := NewConsumerGroup(100)
@@ -49,8 +49,8 @@ func main() {
 	fmt.Printf("Broker '%v' \n", *b)
 	fmt.Printf("Entry '%v' \n", *en)
 
-	go p.produce(t, msg1, msg2)
-	go c.consume()
+	go en.produce(t, msg1, msg2)
+	go en.consume()
 	time.Sleep(5 * time.Second)
 }
 
