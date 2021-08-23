@@ -12,10 +12,6 @@ import (
 func main() {
 	done := make(chan bool)
 	msgt1 := make(chan Message)
-	//b := NewBrokerRecord(1, 1, 1, 1, &done)
-	//pub := b.p
-	//go pub.produce(*b.t, 5)
-	//go b.con.c[0].consume
 
 	msg1 := NewMessage(30000)
 	msg1.msg = "Topic 1 service 1...."
