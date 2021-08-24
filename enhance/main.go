@@ -161,8 +161,6 @@ func (e *Entry) connect(p *Producer) {
 
 type Producer struct {
 	id int
-	//msgs *chan Message
-	//done *chan bool
 }
 
 func NewProducer(id int) *Producer {
