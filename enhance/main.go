@@ -54,6 +54,10 @@ func main() {
 		go en.produce(t, m)
 	}
 
+	for _, m := range msgarr {
+		go en.produce(t, m)
+	}
+
 	go en.consume()
 
 	<-done
