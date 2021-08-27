@@ -37,12 +37,12 @@ func main() {
 
 	p := NewProducer(1000)
 	en.p = p
-	//
+
 	cg := NewConsumerGroup(100)
 	en.con = cg
 	c := NewConsumer(5000)
 	cg.joinGroup(c)
-	//
+
 	fmt.Printf("Consumer '%v' \n", *c)
 	fmt.Printf("Consumer Group '%v' \n", *cg)
 	fmt.Printf("Producer '%v' \n", *p)
