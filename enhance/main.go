@@ -156,14 +156,6 @@ type Consumer struct {
 	//msgs *chan Message
 }
 
-func (c *Consumer) subscribe(e *Entry) {
-	//return nil
-}
-
-func (e *Entry) connect(p *Producer) {
-
-}
-
 type Producer struct {
 	id int
 }
